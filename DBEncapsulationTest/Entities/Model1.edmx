@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PersonDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="PersonDBModelStoreContainer">
+          <EntitySet Name="BlogUsers" EntityType="PersonDBModel.Store.BlogUsers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Posts" EntityType="PersonDBModel.Store.Posts" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_dbo_Posts_dbo_BlogUsers_BlogUserId" Association="PersonDBModel.Store.FK_dbo_Posts_dbo_BlogUsers_BlogUserId">
+            <End Role="BlogUsers" EntitySet="BlogUsers" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BlogUsers">
+          <Key>
+            <PropertyRef Name="BlogUserId" />
+          </Key>
+          <Property Name="BlogUserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BlogName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Posts">
+          <Key>
+            <PropertyRef Name="PostId" />
+          </Key>
+          <Property Name="PostId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PostTitle" Type="nvarchar(max)" />
+          <Property Name="BlogUserId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_Posts_dbo_BlogUsers_BlogUserId">
+          <End Role="BlogUsers" Type="PersonDBModel.Store.BlogUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Posts" Type="PersonDBModel.Store.Posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogUsers">
+              <PropertyRef Name="BlogUserId" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="BlogUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PersonDBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="PersonDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BlogUsers" EntityType="PersonDBModel.BlogUsers" />
+          <EntitySet Name="Posts" EntityType="PersonDBModel.Posts" />
+          <AssociationSet Name="FK_dbo_Posts_dbo_BlogUsers_BlogUserId" Association="PersonDBModel.FK_dbo_Posts_dbo_BlogUsers_BlogUserId">
+            <End Role="BlogUsers" EntitySet="BlogUsers" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BlogUsers">
+          <Key>
+            <PropertyRef Name="BlogUserId" />
+          </Key>
+          <Property Name="BlogUserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BlogName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Posts" Relationship="PersonDBModel.FK_dbo_Posts_dbo_BlogUsers_BlogUserId" FromRole="BlogUsers" ToRole="Posts" />
+        </EntityType>
+        <EntityType Name="Posts">
+          <Key>
+            <PropertyRef Name="PostId" />
+          </Key>
+          <Property Name="PostId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostTitle" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="BlogUserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BlogUsers" Relationship="PersonDBModel.FK_dbo_Posts_dbo_BlogUsers_BlogUserId" FromRole="Posts" ToRole="BlogUsers" />
+        </EntityType>
+        <Association Name="FK_dbo_Posts_dbo_BlogUsers_BlogUserId">
+          <End Role="BlogUsers" Type="PersonDBModel.BlogUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Posts" Type="PersonDBModel.Posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogUsers">
+              <PropertyRef Name="BlogUserId" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="BlogUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PersonDBModelStoreContainer" CdmEntityContainer="PersonDBEntities">
+          <EntitySetMapping Name="BlogUsers"><EntityTypeMapping TypeName="PersonDBModel.BlogUsers"><MappingFragment StoreEntitySet="BlogUsers">
+            <ScalarProperty Name="BlogUserId" ColumnName="BlogUserId" />
+            <ScalarProperty Name="BlogName" ColumnName="BlogName" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Posts"><EntityTypeMapping TypeName="PersonDBModel.Posts"><MappingFragment StoreEntitySet="Posts">
+            <ScalarProperty Name="PostId" ColumnName="PostId" />
+            <ScalarProperty Name="PostTitle" ColumnName="PostTitle" />
+            <ScalarProperty Name="BlogUserId" ColumnName="BlogUserId" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1">
+        <EntityTypeShape EntityType="PersonDBModel.BlogUsers" Width="1.5" PointX="0.75" PointY="1" Height="1.45359375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PersonDBModel.Posts" Width="1.5" PointX="3" PointY="0.875" Height="1.6222135416666674" IsExpanded="true" />
+        <AssociationConnector Association="PersonDBModel.FK_dbo_Posts_dbo_BlogUsers_BlogUserId" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.726796875" />
+          <ConnectorPoint PointX="3" PointY="1.726796875" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
